@@ -55,7 +55,6 @@ export const GAME_DATA: GameDatabase = {
       { id: 'l_g_8', name: 'سونار', type: 'gadget' },
       { id: 'l_g_9', name: 'دخان', type: 'gadget' },
       { id: 'l_g_10', name: 'مسدس يخفي', type: 'gadget' },
-      { id: 'l_g_11', name: 'Thermal Vision', type: 'gadget' },
       { id: 'l_g_12', name: 'Gateway', type: 'gadget' },
       { id: 'l_g_13', name: 'قنبلة الاختفاء', type: 'gadget' },
       { id: 'l_g_14', name: 'Gravity Vortex', type: 'gadget' },
