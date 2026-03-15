@@ -19,7 +19,21 @@ interface LoadoutState {
   generateLoadout: () => void;
   clearHistory: () => void;
   setIsRolling: (rolling: boolean) => void;
+  excludedItemIds: string[];
+  toggleExcludeItem: (itemId: string) => void;
 }
+
+export function getValidClasses(excludedItemIds: string[]): PlayerClass[] {
+  const classes: PlayerClass[] = ['Light', 'Medium', 'Heavy'];
+  return classes.filter(cls => {
+    const data = GAME_DATA[cls];
+    const validWeapons = data.weapons.filter(w => !excludedItemIds.includes(w.id));
+    const validSpecs = data.specializations.filter(s => !excludedItemIds.includes(s.id));
+    const validGadgets = data.gadgets.filter(g => !excludedItemIds.includes(g.id));
+    return validWeapons.length >= 1 && validSpecs.length >= 1 && validGadgets.length >= 3;
+  });
+}
+
 
 
 // 1. Get all item IDs currently in history
@@ -74,27 +88,42 @@ export const useLoadoutStore = create<LoadoutState>((set, get) => ({
   currentLoadout: null,
   history: [],
   isRolling: false,
+  excludedItemIds: [],
 
   setClass: (playerClass) => set({ selectedClass: playerClass }),
   
   setIsRolling: (isRolling) => set({ isRolling }),
 
+  toggleExcludeItem: (itemId) => set((state) => ({
+    excludedItemIds: state.excludedItemIds.includes(itemId)
+      ? state.excludedItemIds.filter(id => id !== itemId)
+      : [...state.excludedItemIds, itemId]
+  })),
+
   generateLoadout: () => {
-    const { history } = get();
+    const { history, excludedItemIds } = get();
+    
+    const validClasses = getValidClasses(excludedItemIds);
+    if (validClasses.length === 0) {
+      return; // Safe guard
+    }
     
     // Pick random class (unweighted for now, as requested only for items)
-    const classes: PlayerClass[] = ['Light', 'Medium', 'Heavy'];
-    const randomClass = classes[Math.floor(Math.random() * classes.length)];
+    const randomClass = validClasses[Math.floor(Math.random() * validClasses.length)];
     
     set({ selectedClass: randomClass });
     const classData = GAME_DATA[randomClass];
 
+    const validSpecs = classData.specializations.filter(s => !excludedItemIds.includes(s.id));
+    const validWeapons = classData.weapons.filter(w => !excludedItemIds.includes(w.id));
+    const validGadgets = classData.gadgets.filter(g => !excludedItemIds.includes(g.id));
+
     const historyIds = getHistoryItemIds(history);
 
     // Get weighted items
-    const randomSpec = getWeightedRandomItem(classData.specializations, historyIds);
-    const randomWeapon = getWeightedRandomItem(classData.weapons, historyIds);
-    const randomGadgets = getWeightedRandomGadgets(classData.gadgets, historyIds);
+    const randomSpec = getWeightedRandomItem(validSpecs, historyIds);
+    const randomWeapon = getWeightedRandomItem(validWeapons, historyIds);
+    const randomGadgets = getWeightedRandomGadgets(validGadgets, historyIds);
 
     const newLoadout: Loadout = {
       id: Math.random().toString(36).substring(2, 9),

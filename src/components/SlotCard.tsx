@@ -47,7 +47,7 @@ export function SlotCard({ label, item }: SlotCardProps) {
               className="flex flex-col items-center gap-2 md:gap-4 w-full h-full justify-center"
             >
                {/* Extract a small inner spinning component to hold the rapid state changes during roll */}
-               <SpinningContent selectedClass={selectedClass} getIcon={getIcon} />
+               <SpinningContent selectedClass={selectedClass} label={label} getIcon={getIcon} />
             </motion.div>
           ) : item ? (
             <motion.div
@@ -97,31 +97,35 @@ export function SlotCard({ label, item }: SlotCardProps) {
 
 // Sub-component specifically to handle the fast interval state changes strictly within itself
 // This fixes cascading render errors since it's mounted/unmounted purely by the parent's `isRolling` state
-function SpinningContent({ selectedClass, getIcon }: { selectedClass: PlayerClass, getIcon: (type?: string) => React.ReactNode }) {
-  // Initialize state with a random item immediately to avoid synchronous setState warnings in useEffect
+function SpinningContent({ selectedClass, label, getIcon }: { selectedClass: PlayerClass, label: string, getIcon: (type?: string) => React.ReactNode }) {
+  const excludedItemIds = useLoadoutStore((state) => state.excludedItemIds);
+
+  const getValidItems = React.useCallback(() => {
+    let items: Item[] = [];
+    if (label.includes('Weapon')) {
+      items = GAME_DATA[selectedClass].weapons;
+    } else if (label.includes('Specialization')) {
+      items = GAME_DATA[selectedClass].specializations;
+    } else {
+      items = GAME_DATA[selectedClass].gadgets;
+    }
+    const filtered = items.filter(item => !excludedItemIds.includes(item.id));
+    return filtered.length > 0 ? filtered : items; // Fallback if all excluded
+  }, [label, selectedClass, excludedItemIds]);
+
   const [spinItem, setSpinItem] = useState<Item>(() => {
-    const allItems = [
-      ...GAME_DATA[selectedClass].specializations,
-      ...GAME_DATA[selectedClass].weapons,
-      ...GAME_DATA[selectedClass].gadgets,
-    ];
-    return allItems[Math.floor(Math.random() * allItems.length)];
+    const validItems = getValidItems();
+    return validItems[Math.floor(Math.random() * validItems.length)];
   });
 
   useEffect(() => {
-    const allItems = [
-      ...GAME_DATA[selectedClass].specializations,
-      ...GAME_DATA[selectedClass].weapons,
-      ...GAME_DATA[selectedClass].gadgets,
-    ];
-    
-    // Fast swap interval
     const interval = setInterval(() => {
-      setSpinItem(allItems[Math.floor(Math.random() * allItems.length)]);
+      const validItems = getValidItems();
+      setSpinItem(validItems[Math.floor(Math.random() * validItems.length)]);
     }, 70);
 
     return () => clearInterval(interval);
-  }, [selectedClass]);
+  }, [getValidItems]);
 
   return (
     <>

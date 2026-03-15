@@ -2,17 +2,19 @@
 
 import React, { useState } from "react";
 import { ClassSelector } from "@/components/ClassSelector";
+import { FilterModal } from "@/components/FilterModal";
 import { SlotCard } from "@/components/SlotCard";
 import { GenerateButton } from "@/components/GenerateButton";
 import { RecentLoadouts } from "@/components/RecentLoadouts";
 import { useLoadoutStore } from "@/store/useLoadoutStore";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Settings2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const currentLoadout = useLoadoutStore((state) => state.currentLoadout);
   const isRolling = useLoadoutStore((state) => state.isRolling);
   const [copied, setCopied] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const handleCopy = () => {
     if (!currentLoadout) return;
@@ -54,6 +56,16 @@ Gadgets:
 
         {/* Top: Class Selector */}
         <ClassSelector />
+
+        <div className="flex justify-center w-full mb-8 -mt-4">
+          <button
+            onClick={() => setIsFilterModalOpen(true)}
+            className="flex items-center gap-2 text-xs md:text-sm font-bold uppercase tracking-widest text-pink hover:text-white transition-all bg-pink/10 px-4 py-2 rounded-lg border border-pink/20 hover:border-pink/50 hover:bg-pink/20"
+          >
+            <Settings2 className="w-4 h-4" />
+            Customize Filters
+          </button>
+        </div>
 
         {/* Cards Container with Header */}
         <div 
@@ -125,6 +137,8 @@ Gadgets:
         <span>تاج الراس</span>
         <span className="opacity-50 group-hover:opacity-100 transition-opacity">👑</span>
       </a>
+
+      <FilterModal isOpen={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)} />
     </main>
   );
 }
