@@ -10,9 +10,9 @@ export function ClassSelector() {
   const isRolling = useLoadoutStore((state) => state.isRolling);
 
   const classes: { id: PlayerClass; label: string }[] = [
-    { id: 'Light', label: 'صغير' },
-    { id: 'Medium', label: 'وسط' },
-    { id: 'Heavy', label: 'جبير' }
+    { id: 'Light', label: 'Light' },
+    { id: 'Medium', label: 'Medium' },
+    { id: 'Heavy', label: 'Heavy' }
   ];
 
   return (
