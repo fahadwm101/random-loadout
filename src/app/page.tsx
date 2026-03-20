@@ -38,7 +38,7 @@ Gadgets:
   };
 
   return (
-    <main className="min-h-screen p-4 md:p-8 lg:p-16 relative flex flex-col items-center">
+    <main className="min-h-screen p-4 md:p-8 lg:p-16 relative flex flex-col items-center overflow-x-hidden">
       {/* Background decorations */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-pink/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-cyan/5 blur-[120px] pointer-events-none" />

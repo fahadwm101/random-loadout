@@ -16,10 +16,17 @@
   --foreground: #ffffff;
 }
 
-body {
+html, body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }
 
 .glass {
