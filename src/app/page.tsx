@@ -60,7 +60,7 @@ Gadgets:
               />
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500">
-              Random <span className="text-pink drop-shadow-[0_0_15px_rgba(255,0,85,0.5)]">Loadout</span>
+              The Finals Random <span className="text-pink drop-shadow-[0_0_15px_rgba(255,0,85,0.5)]">Loadout</span>
             </h1>
           </div>
           <p className="text-cyan font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase text-xs md:text-sm lg:text-base">
@@ -166,6 +166,16 @@ Gadgets:
 
       <FilterModal isOpen={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)} />
       <TeamSplitterModal isOpen={isTeamSplitterOpen} onClose={() => setIsTeamSplitterOpen(false)} />
+
+      {/* Hidden SEO Content */}
+      <div className="sr-only">
+        <h2>Best Random Loadout Builder for The Finals Season 4</h2>
+        <p>
+          Use our free The Finals loadout generator to randomize your weapons, gadgets, and specializations. 
+          Whether you play Light, Medium, or Heavy class, this tool helps you discover new and fun builds 
+          for tournaments and quick cash modes. Built for The Finals community.
+        </p>
+      </div>
     </main>
   );
 }
