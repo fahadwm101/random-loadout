@@ -6,15 +6,18 @@ import { FilterModal } from "@/components/FilterModal";
 import { SlotCard } from "@/components/SlotCard";
 import { GenerateButton } from "@/components/GenerateButton";
 import { RecentLoadouts } from "@/components/RecentLoadouts";
+import { TeamSplitterModal } from "@/components/TeamSplitterModal";
 import { useLoadoutStore } from "@/store/useLoadoutStore";
-import { Copy, Check, Settings2 } from "lucide-react";
+import { Copy, Check, Settings2, Dices } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Home() {
   const currentLoadout = useLoadoutStore((state) => state.currentLoadout);
   const isRolling = useLoadoutStore((state) => state.isRolling);
   const [copied, setCopied] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isTeamSplitterOpen, setIsTeamSplitterOpen] = useState(false);
 
   const handleCopy = () => {
     if (!currentLoadout) return;
@@ -45,12 +48,26 @@ Gadgets:
 
       <div className="w-full max-w-6xl relative z-10 flex flex-col items-center">
         {/* Header Section */}
-        <div className="text-center mb-8 md:mb-12">
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter mb-2 md:mb-4 text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500">
-            Random <span className="text-pink drop-shadow-[0_0_15px_rgba(255,0,85,0.5)]">Loadout</span>
-          </h1>
+        <div className="text-center mb-8 md:mb-12 flex flex-col items-center">
+          <div className="flex items-center gap-4 mb-2 md:mb-4">
+            <div className="relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+              <Image 
+                src="/web.p.png" 
+                alt="Logo" 
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500">
+              Random <span className="text-pink drop-shadow-[0_0_15px_rgba(255,0,85,0.5)]">Loadout</span>
+            </h1>
+          </div>
           <p className="text-cyan font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase text-xs md:text-sm lg:text-base">
             For The Finals
+          </p>
+          <p className="text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#bf953f] font-black tracking-widest uppercase text-[10px] md:text-xs mt-2 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)] animate-shine">
+             THE GOAT: محمد احمد 
           </p>
         </div>
 
@@ -127,6 +144,15 @@ Gadgets:
 
       </div>
       
+      {/* Top Left Team Splitter Button */}
+      <button 
+        onClick={() => setIsTeamSplitterOpen(true)}
+        className="absolute top-4 left-4 md:top-8 md:left-8 z-50 text-gray-500 hover:text-cyan transition-colors text-xs md:text-sm tracking-wide font-medium bg-black/40 px-3 py-1.5 rounded-full border border-white/5 hover:border-cyan/20 backdrop-blur-sm group flex items-center gap-2"
+      >
+        <Dices className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+        <span className="hidden sm:inline">Team Splitter</span>
+      </button>
+
       {/* Top Right Corner Link */}
       <a 
         href="https://fahadwm101.github.io/FAHAD.GITHUP/" 
@@ -139,6 +165,7 @@ Gadgets:
       </a>
 
       <FilterModal isOpen={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)} />
+      <TeamSplitterModal isOpen={isTeamSplitterOpen} onClose={() => setIsTeamSplitterOpen(false)} />
     </main>
   );
 }
