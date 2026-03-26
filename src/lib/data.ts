@@ -67,6 +67,7 @@ export const GAME_DATA: GameDatabase = {
       { id: 'm_s_1', name: 'Dematerializer', type: 'specialization' },
       { id: 'm_s_2', name: 'Guardian Turret', type: 'specialization' },
       { id: 'm_s_3', name: 'Healing Beam', type: 'specialization' },
+      { id: 'm_s_4', name: 'Shockwave', type: 'specialization' },
     ],
     weapons: [
       { id: 'm_w_1', name: 'AKM', type: 'weapon' },
@@ -81,6 +82,7 @@ export const GAME_DATA: GameDatabase = {
       { id: 'm_w_10', name: 'Pike-556', type: 'weapon' },
       { id: 'm_w_11', name: 'R.357', type: 'weapon' },
       { id: 'm_w_12', name: 'Riot Shield', type: 'weapon' },
+      { id: 'm_w_13', name: 'Chimera-XB', type: 'weapon' },
     ],
     gadgets: [
       { id: 'm_g_1', name: 'APS Turret', type: 'gadget' },
@@ -99,6 +101,7 @@ export const GAME_DATA: GameDatabase = {
       { id: 'm_g_14', name: 'Pyro Grenade', type: 'gadget' },
       { id: 'm_g_15', name: 'Zipline', type: 'gadget' },
       { id: 'm_g_16', name: 'Smoke Grenade', type: 'gadget' },
+      { id: 'm_g_17', name: 'Hover Pad', type: 'gadget' },
     ]
   },
   Heavy: {
