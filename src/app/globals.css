@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-montserrat), sans-serif;
-  --color-background: #0d0d0d;
+  --font-sans: var(--font-outfit), sans-serif;
+  --color-background: #0a0a0a;
   --color-foreground: #ffffff;
   --color-pink: #ff0055;
   --color-cyan: #00ffff;
@@ -12,7 +12,7 @@
 }
 
 :root {
-  --background: #0d0d0d;
+  --background: #0a0a0a;
   --foreground: #ffffff;
 }
 
@@ -20,13 +20,33 @@ html, body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
   overflow-x: hidden;
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-pink) #0a0a0a;
+}
+
+/* Chrome, Safari, and Edge */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-pink);
+  border-radius: 20px;
+  border: 2px solid #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ff3377;
 }
 
 body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+  display: block;
 }
 
 .glass {
@@ -54,4 +74,27 @@ body::-webkit-scrollbar {
 .animate-shine {
   animation: shine 4s linear infinite;
   background-size: 200% auto;
+}
+
+/* Physical button utilities */
+.physical-button {
+  box-shadow: 0 4px 0 0 var(--btn-shadow-color, #333), 0 4px 10px rgba(0,0,0,0.5);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.physical-button:active,
+.physical-button.is-active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 0 var(--btn-shadow-color, #333), 0 0px 10px rgba(0,0,0,0.5);
+}
+
+.physical-button.is-active {
+  box-shadow: 0 0px 0 0 var(--btn-shadow-color, #333), 0 0px 15px var(--btn-shadow-color, #333);
+}
+
+.mesh-bg {
+  background-color: #0a0a0a;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(340, 100%, 50%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(180, 100%, 50%, 0.1) 0px, transparent 50%);
 }

@@ -22,24 +22,30 @@ export function ClassSelector() {
     >
       {classes.map(({ id, label }) => {
         const isSelected = selectedClass === id;
+        const color = id === 'Light' ? 'var(--color-cyan)' : id === 'Medium' ? 'var(--color-pink)' : '#ffb700';
         return (
           <button
             key={id}
             onClick={() => !isRolling && setClass(id)}
             disabled={isRolling}
             className={clsx(
-              "relative px-8 py-3 rounded-lg font-bold tracking-wider uppercase transition-all overflow-hidden",
+              "relative px-8 py-3 rounded-lg font-bold tracking-wider uppercase transition-all overflow-hidden physical-button bg-black border border-white/10",
               isRolling ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
-              isSelected ? "text-white" : "text-gray-400 hover:text-white glass"
+              isSelected ? "text-white is-active" : "text-gray-400 hover:text-white"
             )}
+            style={{ '--btn-shadow-color': color } as React.CSSProperties}
           >
             {isSelected && (
               <motion.div
                 layoutId="activeClass"
-                className="absolute inset-0 bg-pink/20 border border-pink"
+                className="absolute inset-0 border"
                 initial={false}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                style={{ borderRadius: 8 }}
+                style={{ 
+                  borderRadius: 8,
+                  backgroundColor: `color-mix(in srgb, ${color} 20%, transparent)`,
+                  borderColor: color
+                }}
               />
             )}
             <span className="relative z-10 text-lg md:text-xl font-black">{label}</span>

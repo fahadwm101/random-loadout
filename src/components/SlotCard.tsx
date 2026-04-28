@@ -32,7 +32,7 @@ export function SlotCard({ label, item }: SlotCardProps) {
         {label}
       </div>
       <motion.div 
-        className="glass rounded-xl p-4 md:py-6 md:px-4 flex flex-col items-center justify-between min-h-[8rem] md:min-h-[12rem] relative overflow-hidden group w-full"
+        className="glass rounded-xl p-4 md:py-6 md:px-4 flex flex-col items-center justify-between min-h-[8rem] md:min-h-[12rem] relative overflow-hidden group w-full border border-white/10 hover:border-cyan/50 hover:shadow-[0_0_30px_rgba(0,255,255,0.3)] transition-all duration-300"
         whileHover={{ scale: 1.02 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       >
@@ -52,10 +52,10 @@ export function SlotCard({ label, item }: SlotCardProps) {
           ) : item ? (
             <motion.div
               key={item.id}
-              initial={{ y: 20, opacity: 0, scale: 0.9 }}
+              initial={{ y: 40, opacity: 0, scale: 0.95 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: -20, opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.1, ease: "easeOut" }}
+              exit={{ y: -20, opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
               className="flex flex-col items-center gap-2 md:gap-4 w-full h-full justify-center"
             >
               <div className="p-2 md:p-3 rounded-full bg-white/5 border border-white/10 group-hover:border-pink/50 transition-colors shrink-0">

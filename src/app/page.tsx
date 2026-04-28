@@ -15,6 +15,7 @@ import Image from "next/image";
 export default function Home() {
   const currentLoadout = useLoadoutStore((state) => state.currentLoadout);
   const isRolling = useLoadoutStore((state) => state.isRolling);
+  const totalGenerations = useLoadoutStore((state) => state.totalGenerations);
   const [copied, setCopied] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [isTeamSplitterOpen, setIsTeamSplitterOpen] = useState(false);
@@ -38,7 +39,7 @@ Gadgets:
   };
 
   return (
-    <main className="min-h-screen p-4 md:p-8 lg:p-16 relative flex flex-col items-center overflow-x-hidden">
+    <main className="min-h-screen p-4 md:p-8 lg:p-16 relative flex flex-col items-center mesh-bg">
       {/* Background decorations */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-pink/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-cyan/5 blur-[120px] pointer-events-none" />
@@ -49,25 +50,25 @@ Gadgets:
       <div className="w-full max-w-6xl relative z-10 flex flex-col items-center">
         {/* Header Section */}
         <div className="text-center mb-8 md:mb-12 flex flex-col items-center">
-          <div className="flex items-center gap-4 mb-2 md:mb-4">
-            <div className="relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 drop-shadow-[0_0_15px_rgba(0,229,255,0.3)]">
-              <Image 
-                src="/web.p.png" 
-                alt="Logo" 
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
+          <div className="flex flex-col items-center mb-2 md:mb-4">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500">
-              The Finals Random <span className="text-pink drop-shadow-[0_0_15px_rgba(255,0,85,0.5)]">Loadout</span>
+              The Finals Random{" "}
+              <span className="text-pink drop-shadow-[0_0_15px_rgba(255,0,85,0.5)] inline-flex items-center gap-2 md:gap-4 ml-1">
+                Loadout
+                <div className="relative w-10 h-10 md:w-14 md:h-14 lg:w-16 lg:h-16 drop-shadow-[0_0_15px_rgba(0,229,255,0.3)] shrink-0">
+                  <Image 
+                    src="/web.p.png" 
+                    alt="Logo" 
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </span>
             </h1>
           </div>
           <p className="text-cyan font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase text-xs md:text-sm lg:text-base">
             For The Finals
-          </p>
-          <p className="text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#bf953f] font-black tracking-widest uppercase text-[10px] md:text-xs mt-2 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)] animate-shine">
-             THE GOAT: محمد احمد 
           </p>
         </div>
 
@@ -138,6 +139,14 @@ Gadgets:
 
         {/* Bottom: Generate Button */}
         <GenerateButton />
+
+        {/* Total Generations Counter */}
+        <div className="flex flex-col items-center mb-8 gap-1">
+          <p className="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest">إجمالي التشكيلات المولدة</p>
+          <p className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink to-cyan drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+            {totalGenerations.toLocaleString()}
+          </p>
+        </div>
 
         {/* Recent Loadouts (History) */}
         <RecentLoadouts />

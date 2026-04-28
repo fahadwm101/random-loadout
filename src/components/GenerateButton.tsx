@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 import { useLoadoutStore, getValidClasses } from '@/store/useLoadoutStore';
 
@@ -15,12 +16,10 @@ export function GenerateButton() {
     
     setIsRolling(true);
     
-    // Play sound or other effects here if needed
-    
     setTimeout(() => {
       generateLoadout();
       setIsRolling(false);
-    }, 2000); // 2 second roulette animation
+    }, 2000);
   };
 
   return (
@@ -36,12 +35,11 @@ export function GenerateButton() {
               : 'bg-pink text-white hover:scale-105 active:scale-95'
           }`}
       >
-        {/* Glow behind text */}
         {!isInvalid && (
           <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-[length:200%_auto] animate-gradient" />
         )}
         
-        <span className="relative z-10 flex items-center gap-3">
+        <span className="relative z-10 flex items-center gap-4">
           {isInvalid ? (
             <>
               <span className="text-xl">⚠️</span>
@@ -49,13 +47,17 @@ export function GenerateButton() {
             </>
           ) : isRolling ? (
             <>
-              <img src="/face.png" alt="Face" className="w-6 h-6 object-cover rounded-full animate-spin-fast" />
-              جاري التشكيل...
+              <div className="relative w-8 h-8 animate-spin-slow">
+                <Image src="/web.p.png" alt="Logo" fill className="object-contain" />
+              </div>
+              Generating...
             </>
           ) : (
             <>
-              <img src="/face.png" alt="Face" className="w-6 h-6 object-cover rounded-full group-hover:animate-pulse" />
-               شكلي كوكتيل
+              <div className="relative w-8 h-8 group-hover:scale-110 transition-transform">
+                <Image src="/web.p.png" alt="Logo" fill className="object-contain" />
+              </div>
+              RANDOM
             </>
           )}
         </span>

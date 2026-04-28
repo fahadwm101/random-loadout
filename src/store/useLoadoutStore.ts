@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { GAME_DATA, Item, PlayerClass } from '@/lib/data';
 
 export interface Loadout {
@@ -15,6 +16,7 @@ interface LoadoutState {
   currentLoadout: Loadout | null;
   history: Loadout[];
   isRolling: boolean;
+  totalGenerations: number;
   setClass: (playerClass: PlayerClass) => void;
   generateLoadout: () => void;
   clearHistory: () => void;
@@ -83,12 +85,15 @@ function getWeightedRandomGadgets(items: Item[], historyIds: Set<string>): [Item
   return selectedGadgets as [Item, Item, Item];
 }
 
-export const useLoadoutStore = create<LoadoutState>((set, get) => ({
-  selectedClass: 'Medium',
-  currentLoadout: null,
-  history: [],
-  isRolling: false,
-  excludedItemIds: [],
+export const useLoadoutStore = create<LoadoutState>()(
+  persist(
+    (set, get) => ({
+      selectedClass: 'Medium',
+      currentLoadout: null,
+      history: [],
+      isRolling: false,
+      excludedItemIds: [],
+      totalGenerations: 0,
 
   setClass: (playerClass) => set({ selectedClass: playerClass }),
   
@@ -134,11 +139,18 @@ export const useLoadoutStore = create<LoadoutState>((set, get) => ({
       timestamp: Date.now(),
     };
 
-    set({
+    set((state) => ({
       currentLoadout: newLoadout,
-      history: [newLoadout, ...history].slice(0, 5), // Keep only last 5
-    });
+      history: [newLoadout, ...state.history].slice(0, 5), // Keep only last 5
+      totalGenerations: state.totalGenerations + 1,
+    }));
   },
 
   clearHistory: () => set({ history: [] }),
-}));
+    }),
+    {
+      name: 'loadout-storage',
+      partialize: (state) => ({ totalGenerations: state.totalGenerations }), // Only persist totalGenerations
+    }
+  )
+);
