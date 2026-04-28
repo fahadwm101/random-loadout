@@ -46,7 +46,7 @@ html, body {
 }
 
 body::-webkit-scrollbar {
-  display: block;
+  width: 8px;
 }
 
 .glass {
