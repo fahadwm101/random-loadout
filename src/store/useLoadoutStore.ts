@@ -147,7 +147,7 @@ export const useLoadoutStore = create<LoadoutState>()(
     }));
 
     // Hit the global counter API
-    fetch('https://api.counterapi.dev/v1/thefinals-random-loadout/generations/up')
+    fetch(`https://api.counterapi.dev/v1/thefinals-random-loadout/generations/up?t=${Date.now()}`, { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
         if (data && typeof data.count === 'number') {
@@ -159,7 +159,7 @@ export const useLoadoutStore = create<LoadoutState>()(
 
   fetchGlobalGenerations: async () => {
     try {
-      const res = await fetch('https://api.counterapi.dev/v1/thefinals-random-loadout/generations');
+      const res = await fetch(`https://api.counterapi.dev/v1/thefinals-random-loadout/generations?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data && typeof data.count === 'number') {
         set({ totalGenerations: data.count });
