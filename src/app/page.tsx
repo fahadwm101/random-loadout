@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ClassSelector } from "@/components/ClassSelector";
 import { FilterModal } from "@/components/FilterModal";
 import { SlotCard } from "@/components/SlotCard";
@@ -16,9 +16,14 @@ export default function Home() {
   const currentLoadout = useLoadoutStore((state) => state.currentLoadout);
   const isRolling = useLoadoutStore((state) => state.isRolling);
   const totalGenerations = useLoadoutStore((state) => state.totalGenerations);
+  const fetchGlobalGenerations = useLoadoutStore((state) => state.fetchGlobalGenerations);
   const [copied, setCopied] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [isTeamSplitterOpen, setIsTeamSplitterOpen] = useState(false);
+
+  useEffect(() => {
+    fetchGlobalGenerations();
+  }, [fetchGlobalGenerations]);
 
   const handleCopy = () => {
     if (!currentLoadout) return;

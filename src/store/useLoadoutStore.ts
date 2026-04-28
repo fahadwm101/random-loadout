@@ -19,6 +19,7 @@ interface LoadoutState {
   totalGenerations: number;
   setClass: (playerClass: PlayerClass) => void;
   generateLoadout: () => void;
+  fetchGlobalGenerations: () => Promise<void>;
   clearHistory: () => void;
   setIsRolling: (rolling: boolean) => void;
   excludedItemIds: string[];
@@ -142,8 +143,30 @@ export const useLoadoutStore = create<LoadoutState>()(
     set((state) => ({
       currentLoadout: newLoadout,
       history: [newLoadout, ...state.history].slice(0, 5), // Keep only last 5
-      totalGenerations: state.totalGenerations + 1,
+      totalGenerations: state.totalGenerations + 1, // Optimistic UI update
     }));
+
+    // Hit the global counter API
+    fetch('https://api.counterapi.dev/v1/thefinals-random-loadout/generations/up')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof data.count === 'number') {
+          set({ totalGenerations: data.count });
+        }
+      })
+      .catch((err) => console.error('Failed to update global counter', err));
+  },
+
+  fetchGlobalGenerations: async () => {
+    try {
+      const res = await fetch('https://api.counterapi.dev/v1/thefinals-random-loadout/generations');
+      const data = await res.json();
+      if (data && typeof data.count === 'number') {
+        set({ totalGenerations: data.count });
+      }
+    } catch (err) {
+      console.error('Failed to fetch global counter', err);
+    }
   },
 
   clearHistory: () => set({ history: [] }),
