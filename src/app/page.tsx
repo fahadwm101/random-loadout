@@ -149,7 +149,7 @@ Gadgets:
 
         {/* Total Generations Counter */}
         <div className="flex flex-col items-center mb-8 gap-1">
-          <p className="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest">إجمالي التشكيلات المولدة</p>
+          <p className="text-xs md:text-sm text-gray-500 font-bold uppercase tracking-widest">Total Generated Loadouts</p>
           <p className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink to-cyan drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
             {totalGenerations.toLocaleString()}
           </p>
